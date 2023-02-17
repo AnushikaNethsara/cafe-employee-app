@@ -117,8 +117,8 @@ function NavBar() {
                         LOGO
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((element) => (
-                            <Link to={element.link} className="link-tag">
+                        {pages.map((element,index) => (
+                            <Link to={element.link} className="link-tag" key={index}>
                                 <Button
                                     key={element.page}
                                     onClick={handleCloseNavMenu}

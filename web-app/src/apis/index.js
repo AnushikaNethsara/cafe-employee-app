@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.baseURL = 'http://localhost:5000'
 
 export const getEmployeesAPI = async () => axios.get('/employee')
 
