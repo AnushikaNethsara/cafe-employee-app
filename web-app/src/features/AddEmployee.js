@@ -62,9 +62,10 @@ const AddEmployee = ({ cafes }) => {
             console.log("save");
     }
 
-    const handleEdit = (data) => {
+    const handleEdit = () => {
         console.log("edit");
         dispatch({ type: UPDATE_EMPLOYEE_BY_ID, employee: state.employeeData })
+        onCancel();
     }
 
     useEffect(() => {

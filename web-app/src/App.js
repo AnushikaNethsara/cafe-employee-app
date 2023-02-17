@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Employee from './features/Employee';
 import Cafe from './features/Cafe';
 import AddEmployee from './features/AddEmployee';
+import AddCafe from './features/AddCafe';
 import Container from '@mui/material/Container';
 import { Provider } from "react-redux";
 import store from './store'
@@ -20,6 +21,8 @@ function App() {
             <Route path="/cafe" element={<Cafe />} />
             <Route path="/addemployee" element={<AddEmployee />} />
             <Route path="/addemployee/:id" element={<AddEmployee />} />
+            <Route path="/addcafe" element={<AddCafe />} />
+            <Route path="/addcafe/:id" element={<AddCafe />} />
             <Route path="/" element={<Employee />} />
           </Routes>
         </Container>
