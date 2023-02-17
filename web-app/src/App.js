@@ -19,6 +19,7 @@ function App() {
             <Route path="/employee" element={<Employee />} />
             <Route path="/cafe" element={<Cafe />} />
             <Route path="/addemployee" element={<AddEmployee />} />
+            <Route path="/addemployee/:id" element={<AddEmployee />} />
             <Route path="/" element={<Employee />} />
           </Routes>
         </Container>

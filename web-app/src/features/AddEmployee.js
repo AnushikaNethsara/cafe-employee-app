@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from './Components/TopBar';
 import { Grid, Typography, Button, Box, FormControl, TextField, RadioGroup, Radio, FormControlLabel, Select, MenuItem, InputLabel } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { UPDATE_EMPLOYEE_BY_ID } from '../redux/types';
 
-const AddEmployee = ({ employee, cafes, onSave, onCancel }) => {
-    const [name, setName] = useState(employee ? employee.name : '');
-    const [email, setEmail] = useState(employee ? employee.email : '');
-    const [phone, setPhone] = useState(employee ? employee.phone : '');
-    const [gender, setGender] = useState(employee ? employee.gender : 'male');
-    const [cafe, setCafe] = useState(employee && employee.cafe ? employee.cafe : '');
-    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+const AddEmployee = ({ cafes }) => {
 
+    const dispatch = useDispatch();
     const history = useNavigate();
+    const { state } = useLocation();
+
+    const [name, setName] = useState(state?.employeeData?.name ?? '');
+    const [email, setEmail] = useState(state?.employeeData?.email ?? '');
+    const [phone, setPhone] = useState(state?.employeeData?.phone ?? '');
+    const [gender, setGender] = useState(state?.employeeData?.gender ?? 'male');
+    const [cafe, setCafe] = useState(state?.employeeData?.assignedCafe ?? '');
+
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -42,8 +48,24 @@ const AddEmployee = ({ employee, cafes, onSave, onCancel }) => {
         if (hasUnsavedChanges && !window.confirm('Are you sure you want to discard your changes?')) {
             return;
         }
-        onCancel();
+        //onCancel();
     };
+
+    const onCancel =()=>{
+        history(-1);
+    }
+
+    const handleSave = () => {
+        if (state)
+            handleEdit();
+        else
+            console.log("save");
+    }
+
+    const handleEdit = (data) => {
+        console.log("edit");
+        dispatch({ type: UPDATE_EMPLOYEE_BY_ID, employee: state.employeeData })
+    }
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -74,7 +96,11 @@ const AddEmployee = ({ employee, cafes, onSave, onCancel }) => {
 
     return (
         <Box>
-            <TopBar title={"ADD EMPLOYEE"} path={"/employee"} buttonName={"BACK"} />
+            <Grid container alignItems="center" sx={{ mt: '5rem', mb: '2rem' }}>
+                <Grid item xs={6}>
+                    <Typography variant="h4" >ADD EMPLOYEE</Typography>
+                </Grid>
+            </Grid>
             <Box>
                 <form onSubmit={handleSubmit}>
                     <FormControl fullWidth margin="normal">
@@ -84,7 +110,7 @@ const AddEmployee = ({ employee, cafes, onSave, onCancel }) => {
                         <TextField label="Email" type="email" value={email} onChange={handleEmailChange} required />
                     </FormControl>
                     <FormControl fullWidth margin="normal">
-                        <TextField label="Phone number" value={phone} onChange={handlePhoneChange} required inputProps={{ pattern: '[89]\\d{7}' }} />
+                        <TextField label="Phone number" value={phone} onChange={handlePhoneChange} required inputProps={{ type: 'tel' }} />
                     </FormControl>
                     <FormControl margin="normal">
                         <RadioGroup value={gender} onChange={handleGenderChange}>
@@ -101,8 +127,12 @@ const AddEmployee = ({ employee, cafes, onSave, onCancel }) => {
                             ))} */}
                         </Select>
                     </FormControl>
-                    {/* <Button type="submit" variant="contained" color="primary">Save</Button>
-                    <Button type="button" variant="contained" color="default" onClick={onCancel}>Cancel</Button> */}
+                    <Box sx={{ marginTop: '3rem', display: 'flex', justifyContent: 'flex-end', '& > :not(:first-of-type)': { ml: 1 } }}>
+                        <Button type="submit" variant="contained" color="primary" onClick={handleSave}>Save</Button>
+                        <Button type="button" variant="contained" color="warning" onClick={onCancel}>Cancel</Button>
+                    </Box>
+                    {/* <Button type="submit" variant="contained" color="primary" onClick={handleSave}>Save</Button>
+                    <Button type="button" variant="contained" color="primary" onClick={handleSave}>Cancel</Button> */}
                 </form>
             </Box>
         </Box>

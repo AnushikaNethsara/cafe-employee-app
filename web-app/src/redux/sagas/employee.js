@@ -18,7 +18,7 @@ export function* creatEmployeeSaga(action) {
     yield put(addEmployeeSlice(action.employee))
 }
 
-export function* updateetEmployeeSaga(action) {
+export function* updateEmployeeSaga(action) {
     yield updateEmployeeAPI(action.employee)
     yield put(editEmployeeSlice(action.employee))
 }
@@ -32,6 +32,6 @@ export function* watchetEmployeeAsync() {
     yield takeEvery(GET_EMPLOYEES, getEmployeesSaga)
     yield takeEvery(GET_EMPLOYEE_BY_ID, getEmployeeByIdAPI)
     yield takeEvery(CREATE_EMPLOYEE, creatEmployeeSaga)
-    yield takeEvery(UPDATE_EMPLOYEE_BY_ID, updateetEmployeeSaga)
+    yield takeEvery(UPDATE_EMPLOYEE_BY_ID, updateEmployeeSaga)
     yield takeEvery(DELETE_EMPLOYEE_BY_ID, deleteetEmployeeByIdSaga)
 }

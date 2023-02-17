@@ -8,11 +8,11 @@ const TopBar = ({ title, path, buttonName }) => {
             <Grid item xs={6}>
                 <Typography variant="h4" >{title}</Typography>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
                 <Link to={path} className="link-tag">
                     <Button variant="contained" color="primary">{buttonName}</Button>
                 </Link>
-            </Grid>
+            </Grid> */}
         </Grid>
     );
 }
