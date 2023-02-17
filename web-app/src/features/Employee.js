@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import DataTable from './Components/DataTable';
+import { Grid, Typography, Button, Box } from '@mui/material';
+import TopBar from './Components/TopBar';
 
 const rowData = [
     { make: "Toyota", model: "Celica", price: 35000 },
@@ -14,16 +16,17 @@ const columnDefs = [
     { field: 'Employees' },
     { field: 'Phone' },
     { field: 'Days worked in the Café' },
-    { field: 'PCafé Name' },
+    { field: 'Café Name' },
     { field: 'Edit/Delete' }
 ]
+
 const Employee = () => {
    
     return (
-        <div>
-            <h1>Employee Page</h1>
+        <Box>
+            <TopBar title={"EMPLOYEE"} path={"/addemployee"} buttonName={"ADD EMPLOYEE"}/>
             <DataTable rowData={rowData} columnDefs={columnDefs}/>
-        </div>
+        </Box>
     );
 }
 
