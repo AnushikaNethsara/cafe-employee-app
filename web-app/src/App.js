@@ -1,24 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import NavBar from './features/Components/NavBar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Employee from './features/Employee';
+import Cafe from './features/Cafe';
+import Container from '@mui/material/Container';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavBar />
+      <Container maxWidth="xl">
+        <Routes>
+          <Route path="/employee" element={<Employee />} />
+          <Route path="/cafe" element={<Cafe />} />
+          <Route path="/" element={<Employee />} />
+        </Routes>
+      </Container>
+    </Router>
   );
 }
 
