@@ -95,7 +95,7 @@ const AddCafe = () => {
     return (
         <Box>
             <Typography variant="h4" sx={{ mt: '5rem', mb: '2rem' }}>
-                ADD CAFÉ
+                ADD CAFE
             </Typography>
             <form onSubmit={handleSubmit}>
                 <FormControl fullWidth margin="normal">
