@@ -58,7 +58,7 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 // Define the /cafes endpoint
-router.get('/cafes', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const location = req.query.location;
     const regex = new RegExp(location, 'i'); // 'i' makes it case-insensitive

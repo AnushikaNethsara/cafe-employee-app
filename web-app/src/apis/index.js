@@ -4,7 +4,7 @@ axios.defaults.baseURL = 'http://localhost:5000/api/v1'
 
 
 //employee apis
-export const getEmployeesAPI = async () => axios.get('employee/employees')
+export const getEmployeesAPI = async () => axios.get('/employee')
 
 export const getEmployeeByIdAPI = async (id) => axios.get(`employee/employee/${id}`)
 

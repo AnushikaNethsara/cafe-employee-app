@@ -87,7 +87,7 @@ router.get('/employees', async (req, res, next) => {
   }
 });
 
-router.get('/employees', (req, res) => {
+router.get('/', (req, res) => {
   Employee.find({}, (err, employees) => {
     if (err) {
       logger.error(err)
