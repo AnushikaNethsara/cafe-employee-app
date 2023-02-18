@@ -98,7 +98,7 @@ const Cafe = () => {
                     </IconButton>
                 </Paper>
             </Box>
-            <DataTable rowData={rows} columnDefs={columnDefs} />
+            <DataTable rowData={rows ? rows : []} columnDefs={columnDefs} />
         </Box>
     );
 }

@@ -57,7 +57,7 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const result = await Employee.deleteOne({ id: req.params.id });
     if (result.deletedCount === 1) {
-      logger.info(`successfully deleted employee entity with ${id}`);
+      logger.info(`successfully deleted employee entity with ${req.params.id}`);
       res.status(200).send("Employee deleted successfully");
     } else {
       logger.info(`not found employee entity with ${req.params.id}`);

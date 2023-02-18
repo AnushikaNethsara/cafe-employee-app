@@ -19,7 +19,7 @@ const Employee = () => {
     React.useEffect(() => {
         dispatch({ type: GET_EMPLOYEES })
     }, []);
-    
+
     const handleEdit = (data) => {
         //navigate(`/addemployee/${data.id}`);
         navigate('/addemployee', { state: { employeeData: data } });
@@ -32,10 +32,10 @@ const Employee = () => {
     const columnDefs = [
         { headerName: "Employee ID", field: "id" },
         { headerName: "Name", field: "name" },
-        { headerName: "Email Address", field: "email" },
-        { headerName: "Phone Number", field: "phone" },
-        { headerName: "Days Worked", field: "daysWorked" },
-        { headerName: "Café Name", field: "assignedCafe" },
+        { headerName: "Email Address", field: "email_address" },
+        { headerName: "Phone Number", field: "phone_number" },
+        // { headerName: "Days Worked", field: "daysWorked" },
+        // { headerName: "Café Name", field: "assignedCafe" },
         {
             headerName: "Actions",
             field: "edit",
@@ -55,7 +55,6 @@ const Employee = () => {
             ),
         },
     ];
-
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: '2rem', mt: '2rem' }}>
@@ -64,9 +63,9 @@ const Employee = () => {
                     <Button variant="contained" color="success" startIcon={<AddIcon />}>ADD EMPLOYEE</Button>
                 </Link>
             </Box>
-            <Divider/>
+            <Divider />
             <Box sx={{ mb: '2rem', mt: "2rem" }}>
-                <DataTable rowData={rows} columnDefs={columnDefs} />
+                <DataTable rowData={rows ? rows : []} columnDefs={columnDefs} />
             </Box>
         </Box>
     );
