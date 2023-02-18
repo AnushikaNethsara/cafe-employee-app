@@ -7,7 +7,7 @@ const Employee = require('../models/employee');
 const errorMiddleware = require('../middlewares/error_middleware');
 const logger = require('../logger/logging');
 
-//add cafe
+//Add cafe
 router.post('/', async (req, res, next) => {
   try {
     const { name, description, logo, location } = req.body;
@@ -39,7 +39,7 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-// Delete a cafe and its employees
+// Delete a cafe
 router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -57,7 +57,7 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-// Define the /cafes endpoint
+// Get cafes by location
 router.get('/', async (req, res, next) => {
   try {
     const location = req.query.location;
@@ -77,7 +77,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-
+//get all cafes
 router.get('/cafes', (req, res) => {
   Cafe.find({}, (err, cafes) => {
     if (err) {

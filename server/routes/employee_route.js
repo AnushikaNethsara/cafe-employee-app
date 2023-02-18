@@ -6,6 +6,7 @@ let Cafe = require('../models/cafe');
 const errorMiddleware = require('../middlewares/error_middleware');
 const logger = require('../logger/logging');
 
+//Add Employee
 router.post('/', async (req, res, next) => {
   try {
     const { id, name, email_address, phone_number, gender, cafe } = req.body;
@@ -24,25 +25,8 @@ router.post('/', async (req, res, next) => {
     }
   }
 });
-// router.post('/', async (req, res, next) => {
-//   try {
-//     const { id, name, email_address, phone_number, gender, cafe, start_date } = req.body;
-//     const employee = new Employee({ id, name, email_address, phone_number, gender, cafe, start_date });
 
-//     const savedEmployee = await employee.save();
-//     logger.info(`successfully saved the employee entity with ${id}`);
-//     res.status(201).json(savedEmployee);
-
-//   } catch (error) {
-//     if (error.name === 'MongoDBError' && error.code === 11000) {
-//       res.status(400).send({ message: 'An employee with the same ID already works in this cafe.' })
-//     } else {
-//       logger.error(error)
-//       next(error);
-//     }
-//   }
-// });
-
+//Edit Employee
 router.put('/:id', async (req, res, next) => {
   try {
     const { name, email_address, phone_number, gender, cafe, start_date } = req.body;
@@ -71,6 +55,7 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
+//Delete Employee
 router.delete('/:id', async (req, res, next) => {
   try {
     const result = await Employee.deleteOne({ id: req.params.id });
@@ -87,6 +72,7 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
+//Get Employees by Cafe ID
 router.get('/employees', async (req, res, next) => {
   try {
     const cafeId = req.query.cafe;
@@ -117,18 +103,7 @@ router.get('/employees', async (req, res, next) => {
   }
 });
 
-// router.get('/', (req, res) => {
-//   Employee.find({}, (err, employees) => {
-//     if (err) {
-//       logger.error(err)
-//       next(err);
-//     } else {
-//       logger.info(`successfully fetched all employees`);
-//       res.status(200).json(employees);
-//     }
-//   });
-// });
-
+//Get all Employees
 router.get('/', (req, res, next) => {
   const currentDate = new Date();
 
