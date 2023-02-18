@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { CREATE_CAFE,UPDATE_CAFE_BY_ID } from '../redux/types';
+import { CREATE_CAFE, UPDATE_CAFE_BY_ID } from '../redux/types';
 import { Box, Button, FormControl, TextField, Typography } from '@mui/material';
 
 const AddCafe = () => {
@@ -57,13 +57,21 @@ const AddCafe = () => {
         //dispatch({ type: CREATE_CAFE, cafe: newCafe });
         if (state)
             handleEdit();
-        else
-            console.log("save");
+        else {
+            dispatch({ type: CREATE_CAFE, cafe: newCafe });
+            onCancel();
+        }
     };
 
     const handleEdit = () => {
-        console.log("edit");
-        dispatch({ type: UPDATE_CAFE_BY_ID, cafe: state.cafeData })
+        const newCafe = {
+            id: state.cafeData.id,
+            name,
+            description,
+            employees,
+            location,
+        };
+        dispatch({ type: UPDATE_CAFE_BY_ID, cafe: newCafe })
         onCancel();
     }
 

@@ -24,8 +24,12 @@ const cafe = createSlice({
         deleteCafeSlice: (state, action) => {
             state = state.filter(i => i.id !== action.payload)
             return state
-        }
+        },
+        getCafesByLocationSlice: (state, action) => {
+            state = action.payload
+            return state
+        },
     }
 })
-export const { getCafesSlice, addCafeSlice, editCafeSlice, deleteCafeSlice } = cafe.actions
+export const { getCafesSlice, addCafeSlice, editCafeSlice, deleteCafeSlice, getCafesByLocationSlice } = cafe.actions
 export default cafe.reducer

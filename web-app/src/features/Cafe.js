@@ -3,7 +3,7 @@ import DataTable from './Components/DataTable';
 import { Grid, Typography, Button, Box, TextField } from '@mui/material';
 import TopBar from './Components/TopBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_CAFES, DELETE_CAFE_BY_ID } from '../redux/types';
+import { GET_CAFES, DELETE_CAFE_BY_ID, GET_CAFE_BY_LOCATION } from '../redux/types';
 import { IconButton } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { useNavigate, Link } from "react-router-dom";
@@ -29,7 +29,7 @@ const Cafe = () => {
     }, []);
 
     const handleEdit = (data) => {
-        //navigate(`/addemployee/${data.id}`);
+        //navigate(`/addemployee/${data.id}`);  
         navigate('/addcafe', { state: { cafeData: data } });
     }
 
@@ -42,7 +42,9 @@ const Cafe = () => {
     };
 
     const handleSearch = () => {
-        console.log(searchText);
+        if (searchText==="")
+            return dispatch({ type: GET_CAFES })
+        dispatch({ type: GET_CAFE_BY_LOCATION, location: searchText })
     }
 
     const columnDefs = [

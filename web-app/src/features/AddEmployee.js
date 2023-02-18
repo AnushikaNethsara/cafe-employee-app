@@ -3,21 +3,29 @@ import TopBar from './Components/TopBar';
 import { Grid, Typography, Button, Box, FormControl, TextField, RadioGroup, Radio, FormControlLabel, Select, MenuItem, InputLabel } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { UPDATE_EMPLOYEE_BY_ID } from '../redux/types';
+import { CREATE_EMPLOYEE, UPDATE_EMPLOYEE_BY_ID, GET_CAFES } from '../redux/types';
+import {  toast } from 'react-toastify';
 
 const AddEmployee = ({ cafes }) => {
 
     const dispatch = useDispatch();
     const history = useNavigate();
     const { state } = useLocation();
+    const cafeList = useSelector(state => state.cafe);
 
+    const [id, setId] = useState(state?.employeeData?.id ?? '');
     const [name, setName] = useState(state?.employeeData?.name ?? '');
-    const [email, setEmail] = useState(state?.employeeData?.email ?? '');
-    const [phone, setPhone] = useState(state?.employeeData?.phone ?? '');
-    const [gender, setGender] = useState(state?.employeeData?.gender ?? 'male');
-    const [cafe, setCafe] = useState(state?.employeeData?.assignedCafe ?? '');
+    const [email, setEmail] = useState(state?.employeeData?.email_address ?? '');
+    const [phone, setPhone] = useState(state?.employeeData?.phone_number ?? '');
+    const [gender, setGender] = useState(state?.employeeData?.gender ?? 'Male');
+    const [cafe, setCafe] = useState(state?.employeeData?.cafe ?? '');
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+    const handleIdChange = (event) => {
+        setId(event.target.value);
+        setHasUnsavedChanges(true);
+    };
 
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -51,49 +59,60 @@ const AddEmployee = ({ cafes }) => {
         //onCancel();
     };
 
-    const onCancel =()=>{
+    const onCancel = () => {
         history(-1);
     }
 
-    const handleSave = () => {
+    const handleSave = (e) => {
+        e.preventDefault();
+        const newEmployee = {
+            id,
+            name,
+            email_address: email,
+            phone_number: phone,
+            gender,
+            cafe: cafe,
+            start_date: " 12-02-2023"
+        };
         if (state)
             handleEdit();
-        else
-            console.log("save");
+        else {
+            dispatch({ type: CREATE_EMPLOYEE, employee: newEmployee });
+            onCancel();
+        }
     }
 
     const handleEdit = () => {
-        console.log("edit");
-        dispatch({ type: UPDATE_EMPLOYEE_BY_ID, employee: state.employeeData })
+        const newEmployee = {
+            id: state.employeeData.id,
+            name,
+            email_address: email,
+            phone_number: phone,
+            gender,
+            cafe: cafe,
+            start_date: " 12-02-2023"
+        };
+        dispatch({ type: UPDATE_EMPLOYEE_BY_ID, employee: newEmployee })
         onCancel();
     }
 
     useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            if (hasUnsavedChanges) {
-                event.preventDefault();
-                event.returnValue = '';
-            }
-        };
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, [hasUnsavedChanges]);
+        dispatch({ type: GET_CAFES })
+    }, []);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        //onSave();
-        let obj = {
-            name,
-            email,
-            phone,
-            gender,
-            cafe
-        };
-        console.log(obj);
-        setHasUnsavedChanges(false);
-    };
+    // useEffect(() => {
+    //     dispatch({ type: GET_CAFES })
+    //     const handleBeforeUnload = (event) => {
+    //         if (hasUnsavedChanges) {
+    //             event.preventDefault();
+    //             event.returnValue = '';
+    //         }
+    //     };
+    //     window.addEventListener('beforeunload', handleBeforeUnload);
+    //     return () => {
+    //         window.removeEventListener('beforeunload', handleBeforeUnload);
+    //     };
+    // }, [hasUnsavedChanges]);
 
     return (
         <Box>
@@ -103,9 +122,12 @@ const AddEmployee = ({ cafes }) => {
                 </Grid>
             </Grid>
             <Box>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSave}>
                     <FormControl fullWidth margin="normal">
-                        <TextField label="Name" value={name} onChange={handleNameChange} required inputProps={{ minLength: 6, maxLength: 10 }} />
+                        <TextField label="ID" value={id} onChange={handleIdChange} required inputProps={{ maxLength: 50 }} />
+                    </FormControl>
+                    <FormControl fullWidth margin="normal">
+                        <TextField label="Name" value={name} onChange={handleNameChange} required inputProps={{ maxLength: 50 }} />
                     </FormControl>
                     <FormControl fullWidth margin="normal">
                         <TextField label="Email" type="email" value={email} onChange={handleEmailChange} required />
@@ -115,21 +137,22 @@ const AddEmployee = ({ cafes }) => {
                     </FormControl>
                     <FormControl margin="normal">
                         <RadioGroup value={gender} onChange={handleGenderChange}>
-                            <FormControlLabel value="male" control={<Radio />} label="Male" />
-                            <FormControlLabel value="female" control={<Radio />} label="Female" />
+                            <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                            <FormControlLabel value="Female" control={<Radio />} label="Female" />
                         </RadioGroup>
                     </FormControl>
+                    <p>{cafe}</p>
                     <FormControl fullWidth margin="normal">
                         <InputLabel>Assigned Café</InputLabel>
                         <Select value={cafe} onChange={handleCafeChange}>
                             <MenuItem value="">None</MenuItem>
-                            {/* {cafes.map(cafe => (
+                            {cafeList.map(cafe => (
                                 <MenuItem key={cafe.id} value={cafe.id}>{cafe.name}</MenuItem>
-                            ))} */}
+                            ))}
                         </Select>
                     </FormControl>
                     <Box sx={{ marginTop: '3rem', display: 'flex', justifyContent: 'flex-end', '& > :not(:first-of-type)': { ml: 1 } }}>
-                        <Button type="submit" variant="contained" color="primary" onClick={handleSave}>Save</Button>
+                        <Button type="submit" variant="contained" color="primary">Save</Button>
                         <Button type="button" variant="contained" color="warning" onClick={onCancel}>Cancel</Button>
                     </Box>
                     {/* <Button type="submit" variant="contained" color="primary" onClick={handleSave}>Save</Button>

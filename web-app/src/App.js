@@ -8,13 +8,16 @@ import AddEmployee from './features/AddEmployee';
 import AddCafe from './features/AddCafe';
 import Container from '@mui/material/Container';
 import { Provider } from "react-redux";
-import store from './store'
+import store from './store';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <NavBar />
+        <ToastContainer />
         <Container maxWidth="xl">
           <Routes>
             <Route path="/employee" element={<Employee />} />
