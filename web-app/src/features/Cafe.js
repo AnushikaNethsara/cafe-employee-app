@@ -7,7 +7,7 @@ import { GET_CAFES, DELETE_CAFE_BY_ID, GET_CAFE_BY_LOCATION } from '../redux/typ
 import { IconButton } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { useNavigate, Link } from "react-router-dom";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
@@ -33,6 +33,11 @@ const Cafe = () => {
         navigate('/addcafe', { state: { cafeData: data } });
     }
 
+    const handleView = (data) => {
+        //navigate(`/addemployee/${data.id}`);  
+        navigate('/employeecafe/' + data.id, { state: { cafeData: data } });
+    }
+
     const handleDelete = (data) => {
         dispatch({ type: DELETE_CAFE_BY_ID, id: data.id });
     }
@@ -42,7 +47,7 @@ const Cafe = () => {
     };
 
     const handleSearch = () => {
-        if (searchText==="")
+        if (searchText === "")
             return dispatch({ type: GET_CAFES })
         dispatch({ type: GET_CAFE_BY_LOCATION, location: searchText })
     }
@@ -57,6 +62,11 @@ const Cafe = () => {
             field: "edit",
             cellRendererFramework: (params) => (
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <IconButton
+                        onClick={() => handleView(params.data)}
+                    >
+                        <VisibilityIcon />
+                    </IconButton>
                     <IconButton
                         onClick={() => handleEdit(params.data)}
                     >
