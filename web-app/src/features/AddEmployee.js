@@ -89,6 +89,7 @@ const AddEmployee = ({ cafes }) => {
             phone_number: phone,
             gender,
             cafe: cafe,
+            start_date: state.employeeData.start_date,
         };
         dispatch({ type: UPDATE_EMPLOYEE_BY_ID, employee: newEmployee })
         onCancel();

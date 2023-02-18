@@ -2,7 +2,7 @@ import { getCafesAPI, getCafeByIdAPI, createCafeAPI, updateCafeAPI, deleteCafeBy
 import { getCafesSlice, addCafeSlice, editCafeSlice, deleteCafeSlice, getCafesByLocationSlice } from '../slice/cafe'
 import { CREATE_CAFE, DELETE_CAFE_BY_ID, GET_CAFE_BY_ID, GET_CAFES, UPDATE_CAFE_BY_ID, GET_CAFE_BY_LOCATION } from '../types'
 import { put, takeEvery } from 'redux-saga/effects'
-
+import { toast } from 'react-toastify';
 
 export function* getCafesSaga() {
     const cafes = yield getCafesAPI()
@@ -14,8 +14,13 @@ export function* getCafeByIdSaga(action) {
     //yield put(setUserSlice(action.id))
 }
 export function* creatCafeSaga(action) {
-    yield createCafeAPI(action.cafe)
-    yield put(addCafeSlice(action.cafe))
+    try {
+        yield createCafeAPI(action.cafe)
+        yield put(addCafeSlice(action.cafe))
+        toast.success("Successfully Added");
+    } catch (error) {
+        toast.error(error.message);
+    }
 }
 
 export function* updateCafeSaga(action) {
