@@ -26,15 +26,13 @@ const Cafe = () => {
 
     React.useEffect(() => {
         dispatch({ type: GET_CAFES })
-    }, []);
+    }, [navigate]);
 
     const handleEdit = (data) => {
-        //navigate(`/addemployee/${data.id}`);  
         navigate('/addcafe', { state: { cafeData: data } });
     }
 
     const handleView = (data) => {
-        //navigate(`/addemployee/${data.id}`);  
         navigate('/employeecafe/' + data.id, { state: { cafeData: data } });
     }
 

@@ -1,6 +1,6 @@
-import { getCafesAPI, getCafeByIdAPI, createCafeAPI, updateCafeAPI, deleteCafeByIdAPI, getCafesByLocationAPI, getEmployeeByCafeAPI } from '../../apis/index'
-import { getCafesSlice, addCafeSlice, editCafeSlice, deleteCafeSlice, getCafesByLocationSlice, getEmployeesByCafeSlice } from '../slice/cafe'
-import { CREATE_CAFE, DELETE_CAFE_BY_ID, GET_CAFE_BY_ID, GET_CAFES, UPDATE_CAFE_BY_ID, GET_CAFE_BY_LOCATION, GET_EMPLOYEES_BY_CAFE } from '../types'
+import { getCafesAPI, getCafeByIdAPI, createCafeAPI, updateCafeAPI, deleteCafeByIdAPI, getCafesByLocationAPI } from '../../apis/index'
+import { getCafesSlice, addCafeSlice, editCafeSlice, deleteCafeSlice, getCafesByLocationSlice } from '../slice/cafe'
+import { CREATE_CAFE, DELETE_CAFE_BY_ID, GET_CAFE_BY_ID, GET_CAFES, UPDATE_CAFE_BY_ID, GET_CAFE_BY_LOCATION } from '../types'
 import { put, takeEvery } from 'redux-saga/effects'
 
 
@@ -33,11 +33,6 @@ export function* getCafesByLocationSaga(action) {
     yield put(getCafesByLocationSlice(cafes.data))
 }
 
-export function* getEmployeesByCafeSaga(action) {
-    const employees = yield getEmployeeByCafeAPI(action.id)
-    yield put(getEmployeesByCafeSlice(employees.data))
-}
-
 
 export function* watchetCafeAsync() {
     yield takeEvery(GET_CAFES, getCafesSaga)
@@ -46,5 +41,4 @@ export function* watchetCafeAsync() {
     yield takeEvery(UPDATE_CAFE_BY_ID, updateCafeSaga)
     yield takeEvery(DELETE_CAFE_BY_ID, deleteCafeByIdSaga)
     yield takeEvery(GET_CAFE_BY_LOCATION, getCafesByLocationSaga)
-    yield takeEvery(GET_EMPLOYEES_BY_CAFE, getEmployeesByCafeSaga)
 }

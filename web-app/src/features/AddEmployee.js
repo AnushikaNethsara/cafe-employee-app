@@ -18,7 +18,7 @@ const AddEmployee = ({ cafes }) => {
     const [email, setEmail] = useState(state?.employeeData?.email_address ?? '');
     const [phone, setPhone] = useState(state?.employeeData?.phone_number ?? '');
     const [gender, setGender] = useState(state?.employeeData?.gender ?? 'Male');
-    const [cafe, setCafe] = useState(state?.employeeData?.cafe ?? '');
+    const [cafe, setCafe] = useState(state?.employeeData?.cafeDetails?.id ?? '');
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -72,7 +72,6 @@ const AddEmployee = ({ cafes }) => {
             phone_number: phone,
             gender,
             cafe: cafe,
-            start_date: " 12-02-2023"
         };
         if (state)
             handleEdit();
@@ -90,7 +89,6 @@ const AddEmployee = ({ cafes }) => {
             phone_number: phone,
             gender,
             cafe: cafe,
-            start_date: " 12-02-2023"
         };
         dispatch({ type: UPDATE_EMPLOYEE_BY_ID, employee: newEmployee })
         onCancel();
@@ -116,12 +114,10 @@ const AddEmployee = ({ cafes }) => {
 
     return (
         <Box>
-            <Grid container alignItems="center" sx={{ mt: '5rem', mb: '2rem' }}>
-                <Grid item xs={6}>
-                    <Typography variant="h4" >ADD EMPLOYEE</Typography>
-                </Grid>
+            <Grid container justifyContent="center" alignItems="center" sx={{ mt: '5rem', mb: '2rem' }}>
+                <Typography variant="h4">ADD EMPLOYEE</Typography>
             </Grid>
-            <Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <form onSubmit={handleSave}>
                     <FormControl fullWidth margin="normal">
                         <TextField label="ID" value={id} onChange={handleIdChange} required inputProps={{ maxLength: 50 }} />
@@ -141,7 +137,6 @@ const AddEmployee = ({ cafes }) => {
                             <FormControlLabel value="Female" control={<Radio />} label="Female" />
                         </RadioGroup>
                     </FormControl>
-                    <p>{cafe}</p>
                     <FormControl fullWidth margin="normal">
                         <InputLabel>Assigned Café</InputLabel>
                         <Select value={cafe} onChange={handleCafeChange}>

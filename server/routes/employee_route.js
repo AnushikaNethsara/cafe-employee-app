@@ -8,8 +8,8 @@ const logger = require('../logger/logging');
 
 router.post('/', async (req, res, next) => {
   try {
-    const { id, name, email_address, phone_number, gender, cafe, start_date } = req.body;
-    const employee = new Employee({ id, name, email_address, phone_number, gender, cafe, start_date });
+    const { id, name, email_address, phone_number, gender, cafe } = req.body;
+    const employee = new Employee({ id, name, email_address, phone_number, gender, cafe });
 
     const savedEmployee = await employee.save();
     logger.info(`successfully saved the employee entity with ${id}`);
@@ -24,6 +24,24 @@ router.post('/', async (req, res, next) => {
     }
   }
 });
+// router.post('/', async (req, res, next) => {
+//   try {
+//     const { id, name, email_address, phone_number, gender, cafe, start_date } = req.body;
+//     const employee = new Employee({ id, name, email_address, phone_number, gender, cafe, start_date });
+
+//     const savedEmployee = await employee.save();
+//     logger.info(`successfully saved the employee entity with ${id}`);
+//     res.status(201).json(savedEmployee);
+
+//   } catch (error) {
+//     if (error.name === 'MongoDBError' && error.code === 11000) {
+//       res.status(400).send({ message: 'An employee with the same ID already works in this cafe.' })
+//     } else {
+//       logger.error(error)
+//       next(error);
+//     }
+//   }
+// });
 
 router.put('/:id', async (req, res, next) => {
   try {
@@ -78,22 +96,79 @@ router.get('/employees', async (req, res, next) => {
       filter.cafe = cafeId;
     }
 
-    const employees = await Employee.find(filter).sort({ start_date: -1 });
+    const employees = await Employee.find(filter);
 
-    res.status(200).json({ employees });
+    const currentDate = new Date();
+    const employeesWithDaysWorked = employees.map(employee => ({
+      id: employee.id,
+      name: employee.name,
+      email_address: employee.email_address,
+      phone_number: employee.phone_number,
+      days_worked: Math.floor((currentDate - employee.start_date) / (1000 * 60 * 60 * 24)), // calculate days worked
+      cafe: employee.cafe || '' // use an empty string if cafe is not assigned yet
+    }));
+
+    const sortedEmployees = employeesWithDaysWorked.sort((a, b) => b.days_worked - a.days_worked); // sort by highest number of days worked
+
+    res.status(200).json({ employees: sortedEmployees });
   } catch (error) {
     logger.error(error)
     next(error);
   }
 });
 
-router.get('/', (req, res) => {
-  Employee.find({}, (err, employees) => {
+// router.get('/', (req, res) => {
+//   Employee.find({}, (err, employees) => {
+//     if (err) {
+//       logger.error(err)
+//       next(err);
+//     } else {
+//       logger.info(`successfully fetched all employees`);
+//       res.status(200).json(employees);
+//     }
+//   });
+// });
+
+router.get('/', (req, res, next) => {
+  const currentDate = new Date();
+
+  Employee.aggregate([
+    {
+      $lookup: {
+        from: 'cafe_schemas',
+        localField: 'cafe',
+        foreignField: 'id',
+        as: 'cafeDetails'
+      }
+    },
+    {
+      $unwind: {
+        path: '$cafeDetails',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $project: {
+        id: 1,
+        name: 1,
+        email_address: 1,
+        phone_number: 1,
+        gender: 1,
+        start_date: 1,
+        'cafeDetails.id': 1,
+        'cafeDetails.name': 1,
+        'cafeDetails.description': 1,
+        'cafeDetails.logo': 1,
+        'cafeDetails.location': 1,
+        days_worked: { $floor: { $divide: [{ $subtract: [currentDate, '$start_date'] }, 86400000] } }
+      }
+    }
+  ], (err, employees) => {
     if (err) {
-      logger.error(err)
+      logger.error(err);
       next(err);
     } else {
-      logger.info(`successfully fetched all employees`);
+      logger.info(`successfully fetched all employees with cafe details and days worked`);
       res.status(200).json(employees);
     }
   });

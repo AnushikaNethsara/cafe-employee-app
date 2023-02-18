@@ -11,6 +11,7 @@ const employee = createSlice({
     }],
     reducers: {
         getEmployeesSlice: (state, action) => {
+            console.log(action.payload)
             state = action.payload
             return state
         },
@@ -25,8 +26,12 @@ const employee = createSlice({
         deleteEmployeeSlice: (state, action) => {
             state = state.filter(i => i.id !== action.payload)
             return state
+        },
+        getEmployeesByCafeSlice: (state, action) => {
+            state = action.payload
+            return state
         }
     }
 })
-export const { getEmployeesSlice, addEmployeeSlice, editEmployeeSlice, deleteEmployeeSlice } = employee.actions
+export const { getEmployeesSlice, addEmployeeSlice, editEmployeeSlice, deleteEmployeeSlice, getEmployeesByCafeSlice } = employee.actions
 export default employee.reducer

@@ -15,13 +15,12 @@ const ViewEmployeeCafe = () => {
     const { state } = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const rows = useSelector(state => state.cafe.employees);
+    const rows = useSelector(state => state.employee.employees);
     React.useEffect(() => {
         dispatch({ type: GET_EMPLOYEES_BY_CAFE, id: state.cafeData.id })
     }, []);
 
     const handleEdit = (data) => {
-        //navigate(`/addemployee/${data.id}`);
         navigate('/addemployee', { state: { employeeData: data } });
     }
 
@@ -29,39 +28,22 @@ const ViewEmployeeCafe = () => {
         dispatch({ type: DELETE_EMPLOYEE_BY_ID, id: data.id });
     }
 
+    const handleBack=()=>{
+        navigate(-1);
+    }
+
     const columnDefs = [
         { headerName: "Employee ID", field: "id" },
         { headerName: "Name", field: "name" },
         { headerName: "Email Address", field: "email_address" },
         { headerName: "Phone Number", field: "phone_number" },
-        // { headerName: "Days Worked", field: "daysWorked" },
-        // { headerName: "Café Name", field: "assignedCafe" },
-        {
-            headerName: "Actions",
-            field: "edit",
-            cellRendererFramework: (params) => (
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <IconButton
-                        onClick={() => handleEdit(params.data)}
-                    >
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton
-                        onClick={() => handleDelete(params.data)}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                </div>
-            ),
-        },
+        { headerName: "Days Worked", field: "days_worked" },
     ];
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: '2rem', mt: '2rem' }}>
                 <Typography variant="h4" sx={{ textAlign: 'center' }}>{state.cafeData.name} Employees</Typography>
-                <Link to="/cafe" className="link-tag" style={{ display: 'inline-block' }}>
-                    <Button variant="contained" color="primary" startIcon={<ArrowBackIcon />}>BACK</Button>
-                </Link>
+                <Button onClick={handleBack} variant="contained" color="primary" startIcon={<ArrowBackIcon />}>BACK</Button>
             </Box>
             <Divider />
             <Box sx={{ mb: '2rem', mt: "2rem" }}>

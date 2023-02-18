@@ -1,7 +1,7 @@
-import { getEmployeesAPI, getEmployeeByIdAPI, createEmployeeAPI, updateEmployeeAPI, deleteEmployeeByIdAPI } from '../../apis/index'
+import { getEmployeesAPI, getEmployeeByIdAPI, createEmployeeAPI, updateEmployeeAPI, deleteEmployeeByIdAPI, getEmployeeByCafeAPI } from '../../apis/index'
 import { setUserSlice } from '../slice/user'
-import { getEmployeesSlice, addEmployeeSlice, editEmployeeSlice, deleteEmployeeSlice } from '../slice/employee'
-import { CREATE_EMPLOYEE, DELETE_EMPLOYEE_BY_ID, GET_EMPLOYEES, GET_EMPLOYEE_BY_ID, UPDATE_EMPLOYEE_BY_ID } from '../types'
+import { getEmployeesSlice, addEmployeeSlice, editEmployeeSlice, deleteEmployeeSlice, getEmployeesByCafeSlice } from '../slice/employee'
+import { CREATE_EMPLOYEE, DELETE_EMPLOYEE_BY_ID, GET_EMPLOYEES, GET_EMPLOYEE_BY_ID, UPDATE_EMPLOYEE_BY_ID, GET_EMPLOYEES_BY_CAFE } from '../types'
 import { put, takeEvery } from 'redux-saga/effects'
 
 export function* getEmployeesSaga() {
@@ -28,10 +28,16 @@ export function* deleteetEmployeeByIdSaga(action) {
     yield put(deleteEmployeeSlice(action.id))
 }
 
+export function* getEmployeesByCafeSaga(action) {
+    const employees = yield getEmployeeByCafeAPI(action.id)
+    yield put(getEmployeesByCafeSlice(employees.data))
+}
+
 export function* watchetEmployeeAsync() {
     yield takeEvery(GET_EMPLOYEES, getEmployeesSaga)
     yield takeEvery(GET_EMPLOYEE_BY_ID, getEmployeeByIdAPI)
     yield takeEvery(CREATE_EMPLOYEE, creatEmployeeSaga)
     yield takeEvery(UPDATE_EMPLOYEE_BY_ID, updateEmployeeSaga)
     yield takeEvery(DELETE_EMPLOYEE_BY_ID, deleteetEmployeeByIdSaga)
+    yield takeEvery(GET_EMPLOYEES_BY_CAFE, getEmployeesByCafeSaga)
 }

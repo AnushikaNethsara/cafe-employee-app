@@ -21,7 +21,6 @@ const Employee = () => {
     }, []);
 
     const handleEdit = (data) => {
-        //navigate(`/addemployee/${data.id}`);
         navigate('/addemployee', { state: { employeeData: data } });
     }
 
@@ -34,8 +33,8 @@ const Employee = () => {
         { headerName: "Name", field: "name" },
         { headerName: "Email Address", field: "email_address" },
         { headerName: "Phone Number", field: "phone_number" },
-        // { headerName: "Days Worked", field: "daysWorked" },
-        // { headerName: "Café Name", field: "assignedCafe" },
+        { headerName: "Days Worked", field: "days_worked" },
+        { headerName: "Café Name", field: "cafeDetails.name" },
         {
             headerName: "Actions",
             field: "edit",

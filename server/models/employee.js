@@ -9,7 +9,7 @@ const employeeSchema = new mongoose.Schema({
   phone_number: { type: String, required: true, match: /^[89]\d{7}$/ },
   gender: { type: String, enum: ['Male', 'Female'], required: true },
   cafe: { type: String, required: true },
-  start_date: { type: Date, required: true }
+  start_date: { type: Date, required: true, default: Date.now }
 },
  {
   // Add a unique index on the combination of id and cafe fields
