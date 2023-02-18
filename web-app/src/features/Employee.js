@@ -7,6 +7,8 @@ import { GET_EMPLOYEES, DELETE_EMPLOYEE_BY_ID } from '../redux/types';
 import { IconButton } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { useNavigate, Link } from "react-router-dom";
+import Divider from '@mui/material/Divider';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const Employee = () => {
@@ -56,17 +58,16 @@ const Employee = () => {
 
     return (
         <Box>
-            <Grid container alignItems="center" sx={{ mt: '5rem', mb: '2rem' }}>
-                <Grid item xs={6}>
-                    <Typography variant="h4" >EMPLOYEE</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to="/addemployee" className="link-tag">
-                        <Button variant="contained" color="primary">ADD EMPLOYEE</Button>
-                    </Link>
-                </Grid>
-            </Grid>
-            <DataTable rowData={rows} columnDefs={columnDefs} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: '2rem', mt: '2rem' }}>
+                <Typography variant="h4" sx={{ textAlign: 'center' }}>EMPLOYEE LIST</Typography>
+                <Link to="/addemployee" className="link-tag" style={{ display: 'inline-block' }}>
+                    <Button variant="contained" color="success" startIcon={<AddIcon />}>ADD EMPLOYEE</Button>
+                </Link>
+            </Box>
+            <Divider/>
+            <Box sx={{ mb: '2rem', mt: "2rem" }}>
+                <DataTable rowData={rows} columnDefs={columnDefs} />
+            </Box>
         </Box>
     );
 }
