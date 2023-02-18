@@ -15,3 +15,7 @@ dist
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+error.log
+combined.log
+
