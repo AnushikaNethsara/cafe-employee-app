@@ -146,7 +146,7 @@ const AddEmployee = ({ cafes }) => {
                         <InputLabel>Assigned Café</InputLabel>
                         <Select value={cafe} onChange={handleCafeChange}>
                             <MenuItem value="">None</MenuItem>
-                            {cafeList.map(cafe => (
+                            {cafeList?.map(cafe => (
                                 <MenuItem key={cafe.id} value={cafe.id}>{cafe.name}</MenuItem>
                             ))}
                         </Select>

@@ -15,6 +15,8 @@ export const updateEmployeeAPI = async (employee) => axios.put(`/employee/${empl
 export const deleteEmployeeByIdAPI = async (id) => axios.delete(`/employee/${id}`)
 
 
+
+
 //cafe apis
 export const getCafesAPI = async () => axios.get('/cafe/cafes')
 
@@ -27,3 +29,5 @@ export const updateCafeAPI = async (cafe) => axios.put(`/cafe/${cafe.id}`, cafe)
 export const deleteCafeByIdAPI = async (id) => axios.delete(`/cafe/${id}`)
 
 export const getCafesByLocationAPI = async (location) => axios.get(`/cafe?location=${location}`)
+
+export const getEmployeeByCafeAPI = async (id) => axios.get(`/employee/employees?cafe=${id}`)

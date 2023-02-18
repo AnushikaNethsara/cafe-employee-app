@@ -3,20 +3,21 @@ import DataTable from './Components/DataTable';
 import { Grid, Typography, Button, Box } from '@mui/material';
 import TopBar from './Components/TopBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_EMPLOYEES, DELETE_EMPLOYEE_BY_ID } from '../redux/types';
+import { GET_EMPLOYEES_BY_CAFE, DELETE_EMPLOYEE_BY_ID } from '../redux/types';
 import { IconButton } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const ViewEmployeeCafe = () => {
 
+    const { state } = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const rows = useSelector(state => state.employee);
+    const rows = useSelector(state => state.cafe.employees);
     React.useEffect(() => {
-        dispatch({ type: GET_EMPLOYEES })
+        dispatch({ type: GET_EMPLOYEES_BY_CAFE, id: state.cafeData.id })
     }, []);
 
     const handleEdit = (data) => {
@@ -57,15 +58,15 @@ const ViewEmployeeCafe = () => {
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: '2rem', mt: '2rem' }}>
-                <Typography variant="h4" sx={{ textAlign: 'center' }}>View Employee Cafe</Typography>
+                <Typography variant="h4" sx={{ textAlign: 'center' }}>{state.cafeData.name} Employees</Typography>
                 <Link to="/cafe" className="link-tag" style={{ display: 'inline-block' }}>
                     <Button variant="contained" color="primary" startIcon={<ArrowBackIcon />}>BACK</Button>
                 </Link>
             </Box>
             <Divider />
-            {/* <Box sx={{ mb: '2rem', mt: "2rem" }}>
+            <Box sx={{ mb: '2rem', mt: "2rem" }}>
                 <DataTable rowData={rows ? rows : []} columnDefs={columnDefs} />
-            </Box> */}
+            </Box>
         </Box>
     );
 }

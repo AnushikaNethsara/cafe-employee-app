@@ -29,7 +29,11 @@ const cafe = createSlice({
             state = action.payload
             return state
         },
+        getEmployeesByCafeSlice: (state, action) => {
+            state = action.payload
+            return state
+        }
     }
 })
-export const { getCafesSlice, addCafeSlice, editCafeSlice, deleteCafeSlice, getCafesByLocationSlice } = cafe.actions
+export const { getCafesSlice, addCafeSlice, editCafeSlice, deleteCafeSlice, getCafesByLocationSlice, getEmployeesByCafeSlice } = cafe.actions
 export default cafe.reducer

@@ -61,7 +61,7 @@ function NavBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        Cafe Aroma
+                        Café Employee
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
