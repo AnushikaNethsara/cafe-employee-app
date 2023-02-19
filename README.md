@@ -18,6 +18,7 @@ Run Frontend Application:
         docker run -it -p 3000:3000 cafe-employee-frontend:dev:latest
 
 Run Backend Application:
+
     1. Copy the .env file in zip file to server directory
 
     2. Navigate to the server directory in your terminal:
