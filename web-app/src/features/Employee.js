@@ -3,21 +3,23 @@ import DataTable from './Components/DataTable';
 import { Grid, Typography, Button, Box } from '@mui/material';
 import TopBar from './Components/TopBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { GET_EMPLOYEES, DELETE_EMPLOYEE_BY_ID } from '../redux/types';
+import { GET_EMPLOYEES, DELETE_EMPLOYEE_BY_ID, GET_EMPLOYEES_BY_CAFE } from '../redux/types';
 import { IconButton } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import AddIcon from '@mui/icons-material/Add';
 
 
 const Employee = () => {
 
+    const { state } = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const rows = useSelector(state => state.employee);
     React.useEffect(() => {
-        dispatch({ type: GET_EMPLOYEES })
+        //dispatch({ type: GET_EMPLOYEES })
+        dispatch({ type: GET_EMPLOYEES_BY_CAFE, id: state.cafeData.id })
     }, []);
 
     const handleEdit = (data) => {

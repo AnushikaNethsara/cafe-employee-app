@@ -33,7 +33,7 @@ const Cafe = () => {
     }
 
     const handleView = (data) => {
-        navigate('/employeecafe/' + data.id, { state: { cafeData: data } });
+        navigate('/employee/' + data.id, { state: { cafeData: data } });
     }
 
     const handleDelete = (data) => {

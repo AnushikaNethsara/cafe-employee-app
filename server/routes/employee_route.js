@@ -74,33 +74,87 @@ router.delete('/:id', async (req, res, next) => {
 
 //Get Employees by Cafe ID
 router.get('/employees', async (req, res, next) => {
-  try {
-    const cafeId = req.query.cafe;
+  const cafeId = req.query.cafe;
+  const currentDate = new Date();
 
-    const filter = {};
-    if (cafeId) {
-      filter.cafe = cafeId;
+  Employee.aggregate([
+    {
+      $lookup: {
+        from: 'cafe_schemas',
+        localField: 'cafe',
+        foreignField: 'id',
+        as: 'cafeDetails'
+      }
+    },
+    {
+      $unwind: {
+        path: '$cafeDetails',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $project: {
+        id: 1,
+        name: 1,
+        email_address: 1,
+        phone_number: 1,
+        gender: 1,
+        start_date: 1,
+        'cafeDetails.id': 1,
+        'cafeDetails.name': 1,
+        'cafeDetails.description': 1,
+        'cafeDetails.logo': 1,
+        'cafeDetails.location': 1,
+        days_worked: { $floor: { $divide: [{ $subtract: [currentDate, '$start_date'] }, 86400000] } }
+      }
+    },
+    {
+      $match: {
+        'cafeDetails.id': cafeId
+      }
+    },
+    {
+      $sort: {
+        start_date: 1
+      }
     }
+  ], (err, employees) => {
+    if (err) {
+      logger.error(err);
+      next(err);
+    } else {
+      console.log(employees)
+      logger.info(`successfully fetched employees for cafe with id ${cafeId}`);
+      res.status(200).json(employees);
+    }
+  });
+  // try {
+  //   const cafeId = req.query.cafe;
 
-    const employees = await Employee.find(filter);
+  //   const filter = {};
+  //   if (cafeId) {
+  //     filter.cafe = cafeId;
+  //   }
 
-    const currentDate = new Date();
-    const employeesWithDaysWorked = employees.map(employee => ({
-      id: employee.id,
-      name: employee.name,
-      email_address: employee.email_address,
-      phone_number: employee.phone_number,
-      days_worked: Math.floor((currentDate - employee.start_date) / (1000 * 60 * 60 * 24)), // calculate days worked
-      cafe: employee.cafe || '' // use an empty string if cafe is not assigned yet
-    }));
+  //   const employees = await Employee.find(filter);
 
-    const sortedEmployees = employeesWithDaysWorked.sort((a, b) => b.days_worked - a.days_worked); // sort by highest number of days worked
+  //   const currentDate = new Date();
+  //   const employeesWithDaysWorked = employees.map(employee => ({
+  //     id: employee.id,
+  //     name: employee.name,
+  //     email_address: employee.email_address,
+  //     phone_number: employee.phone_number,
+  //     days_worked: Math.floor((currentDate - employee.start_date) / (1000 * 60 * 60 * 24)), // calculate days worked
+  //     cafe: employee.cafe || '' // use an empty string if cafe is not assigned yet
+  //   }));
 
-    res.status(200).json({ employees: sortedEmployees });
-  } catch (error) {
-    logger.error(error)
-    next(error);
-  }
+  //   const sortedEmployees = employeesWithDaysWorked.sort((a, b) => b.days_worked - a.days_worked); // sort by highest number of days worked
+  //   console.log(sortedEmployees)
+  //   res.status(200).json({ employees: sortedEmployees });
+  // } catch (error) {
+  //   logger.error(error)
+  //   next(error);
+  // }
 });
 
 //Get all Employees
@@ -143,6 +197,7 @@ router.get('/', (req, res, next) => {
       logger.error(err);
       next(err);
     } else {
+      console.log(employees)
       logger.info(`successfully fetched all employees with cafe details and days worked`);
       res.status(200).json(employees);
     }

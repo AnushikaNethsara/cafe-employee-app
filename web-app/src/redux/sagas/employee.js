@@ -1,5 +1,4 @@
 import { getEmployeesAPI, getEmployeeByIdAPI, createEmployeeAPI, updateEmployeeAPI, deleteEmployeeByIdAPI, getEmployeeByCafeAPI } from '../../apis/index'
-import { setUserSlice } from '../slice/user'
 import { getEmployeesSlice, addEmployeeSlice, editEmployeeSlice, deleteEmployeeSlice, getEmployeesByCafeSlice } from '../slice/employee'
 import { CREATE_EMPLOYEE, DELETE_EMPLOYEE_BY_ID, GET_EMPLOYEES, GET_EMPLOYEE_BY_ID, UPDATE_EMPLOYEE_BY_ID, GET_EMPLOYEES_BY_CAFE } from '../types'
 import { put, takeEvery } from 'redux-saga/effects'
@@ -10,10 +9,6 @@ export function* getEmployeesSaga() {
     yield put(getEmployeesSlice(employees.data))
 }
 
-export function* getetEmployeeByIdSaga(action) {
-    yield getEmployeeByIdAPI(action.id)
-    yield put(setUserSlice(action.id))
-}
 export function* creatEmployeeSaga(action) {
     try {
         yield createEmployeeAPI(action.employee)

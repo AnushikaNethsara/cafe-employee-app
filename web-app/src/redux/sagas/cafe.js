@@ -11,7 +11,6 @@ export function* getCafesSaga() {
 
 export function* getCafeByIdSaga(action) {
     yield getCafeByIdAPI(action.id)
-    //yield put(setUserSlice(action.id))
 }
 export function* creatCafeSaga(action) {
     try {

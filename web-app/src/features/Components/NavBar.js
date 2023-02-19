@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 
 
 //const pages = ['Cafe', 'Employee'];
-const pages = [{ page: 'Cafe', link: "/cafe" }, { page: 'Employee', link: "/employee" }];
+const pages = [{ page: 'Cafes', link: "/cafe" }];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
