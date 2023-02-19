@@ -6,27 +6,56 @@ To use this application, follow the steps below:
 Clone the Git repository by running the following command in your terminal:
     git clone https://github.com/AnushikaNethsara/cafe-employee-app
 
+You can run the application with or without Docker. Follow either Method 1 or Method 2
 
-Run Frontend Application:
+Method 1: RUN WITHOUT DOCKER
 
-    1. Navigate to the web-app directory in your terminal:
+    Run Frontend Application:
 
-    2. Run the following command in your terminal:
-        docker build -t cafe-employee-frontend:dev:latest .
+        1. Navigate to the web-app directory in your terminal:
 
-    3. After completing above run the following command in your terminal:
-        docker run -it -p 3000:3000 cafe-employee-frontend:dev:latest
+        2. Run the following command in your terminal:
+            npm i
 
-Run Backend Application:
+        3. After completing above run the following command in your terminal:
+            npm start
 
-    1. Copy the .env file in zip file to server directory
+    Run Backend Application:
 
-    2. Navigate to the server directory in your terminal:
+        1. Copy the .env file in zip file to server directory
 
-    3. Run the following command in your terminal:
-        docker build -t cafe-employee-server:latest .
+        2. Navigate to the server directory in your terminal:
 
-    4. After completing above run the following command in your terminal:
-        docker run -it -p 5000:5000 cafe-employee-server:latest
+        3. Run the following command in your terminal:
+            npm i
+
+        4. After completing above run the following command in your terminal:
+            npm start
+
+
+
+Method 2: RUN USING DOCKER
+
+    Run Frontend Application:
+
+        1. Navigate to the web-app directory in your terminal:
+
+        2. Run the following command in your terminal:
+            docker build -t cafe-employee-frontend:latest .
+
+        3. After completing above run the following command in your terminal:
+            docker run -it -p 3000:3000 cafe-employee-frontend:latest
+
+    Run Backend Application:
+
+        1. Copy the .env file in zip file to server directory
+
+        2. Navigate to the server directory in your terminal:
+
+        3. Run the following command in your terminal:
+            docker build -t cafe-employee-server:latest .
+
+        4. After completing above run the following command in your terminal:
+            docker run -it -p 5000:5000 cafe-employee-server:latest
 
 
