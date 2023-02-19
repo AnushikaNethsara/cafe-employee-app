@@ -50,6 +50,13 @@ const Cafe = () => {
         dispatch({ type: GET_CAFE_BY_LOCATION, location: searchText })
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSearch();
+        }
+    };
+
     const columnDefs = [
         { headerName: "Cafe ID", field: "id" },
         { headerName: "Name", field: "name" },
@@ -102,6 +109,7 @@ const Cafe = () => {
                         placeholder="Search Cafe by Location"
                         inputProps={{ 'aria-label': 'search google maps' }}
                         onChange={handleSearchTextChange}
+                        onKeyDown={handleKeyDown}
                     />
                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
                         <SearchIcon />
