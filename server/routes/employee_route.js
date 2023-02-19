@@ -123,38 +123,10 @@ router.get('/employees', async (req, res, next) => {
       logger.error(err);
       next(err);
     } else {
-      console.log(employees)
       logger.info(`successfully fetched employees for cafe with id ${cafeId}`);
       res.status(200).json(employees);
     }
   });
-  // try {
-  //   const cafeId = req.query.cafe;
-
-  //   const filter = {};
-  //   if (cafeId) {
-  //     filter.cafe = cafeId;
-  //   }
-
-  //   const employees = await Employee.find(filter);
-
-  //   const currentDate = new Date();
-  //   const employeesWithDaysWorked = employees.map(employee => ({
-  //     id: employee.id,
-  //     name: employee.name,
-  //     email_address: employee.email_address,
-  //     phone_number: employee.phone_number,
-  //     days_worked: Math.floor((currentDate - employee.start_date) / (1000 * 60 * 60 * 24)), // calculate days worked
-  //     cafe: employee.cafe || '' // use an empty string if cafe is not assigned yet
-  //   }));
-
-  //   const sortedEmployees = employeesWithDaysWorked.sort((a, b) => b.days_worked - a.days_worked); // sort by highest number of days worked
-  //   console.log(sortedEmployees)
-  //   res.status(200).json({ employees: sortedEmployees });
-  // } catch (error) {
-  //   logger.error(error)
-  //   next(error);
-  // }
 });
 
 //Get all Employees
@@ -197,7 +169,6 @@ router.get('/', (req, res, next) => {
       logger.error(err);
       next(err);
     } else {
-      console.log(employees)
       logger.info(`successfully fetched all employees with cafe details and days worked`);
       res.status(200).json(employees);
     }

@@ -4,9 +4,10 @@ import { Grid, Typography, Button, Box, FormControl, TextField, RadioGroup, Radi
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CREATE_EMPLOYEE, UPDATE_EMPLOYEE_BY_ID, GET_CAFES } from '../redux/types';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { validateLength, validatePhoneNumber, validateEmail, validateEmployeeId } from './Validation/Validation';
 
 const AddEmployee = ({ cafes }) => {
 
@@ -21,6 +22,7 @@ const AddEmployee = ({ cafes }) => {
     const [phone, setPhone] = useState(state?.employeeData?.phone_number ?? '');
     const [gender, setGender] = useState(state?.employeeData?.gender ?? 'Male');
     const [cafe, setCafe] = useState(state?.employeeData?.cafeDetails?.id ?? '');
+    const [inputError, setInputError] = useState('');
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -54,6 +56,21 @@ const AddEmployee = ({ cafes }) => {
         setHasUnsavedChanges(true);
     };
 
+    const validateInputs = () => {
+        if (!validateEmployeeId(id)) {
+            toast.error("Invalid Employee ID. It should be UIXXXXXXX");
+        }else if (!validateLength(name)) {
+            toast.error("Name must be between 6 and 10 characters");
+        } else if (!validatePhoneNumber(phone)) {
+            toast.error("Phone Number must be a valid SG phone number");
+        } else if (!validateEmail(email)) {
+            toast.error("Invalid email address");
+        } else {
+            return true;
+        }
+        return false;
+    };
+
     const handleCancel = () => {
         if (hasUnsavedChanges && !window.confirm('Are you sure you want to discard your changes?')) {
             return;
@@ -75,12 +92,15 @@ const AddEmployee = ({ cafes }) => {
             gender,
             cafe: cafe,
         };
-        if (state)
-            handleEdit();
-        else {
-            dispatch({ type: CREATE_EMPLOYEE, employee: newEmployee });
-            onCancel();
+        if (validateInputs()) {
+            if (state)
+                handleEdit();
+            else {
+                dispatch({ type: CREATE_EMPLOYEE, employee: newEmployee });
+                onCancel();
+            }
         }
+
     }
 
     const handleEdit = () => {
@@ -129,7 +149,7 @@ const AddEmployee = ({ cafes }) => {
                         <TextField label="Name" value={name} onChange={handleNameChange} required inputProps={{ maxLength: 50 }} />
                     </FormControl>
                     <FormControl fullWidth margin="normal">
-                        <TextField label="Email" type="email" value={email} onChange={handleEmailChange} required />
+                        <TextField label="Email" value={email} onChange={handleEmailChange} required />
                     </FormControl>
                     <FormControl fullWidth margin="normal">
                         <TextField label="Phone number" value={phone} onChange={handlePhoneChange} required inputProps={{ type: 'tel' }} />
