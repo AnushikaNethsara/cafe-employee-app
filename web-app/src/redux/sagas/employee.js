@@ -15,7 +15,7 @@ export function* creatEmployeeSaga(action) {
         yield put(addEmployeeSlice(action.employee))
         toast.success("Successfully Added");
     } catch (error) {
-        toast.error(error.message);
+        toast.error(error.message + "\nHint: ID should be unique!");
     }
 }
 

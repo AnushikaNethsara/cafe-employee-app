@@ -58,13 +58,13 @@ const AddEmployee = ({ cafes }) => {
 
     const validateInputs = () => {
         if (!validateEmployeeId(id)) {
-            toast.error("Invalid Employee ID. It should be UIXXXXXXX");
+            toast.warning("Invalid Employee ID. It should be UIXXXXXXX");
         }else if (!validateLength(name)) {
-            toast.error("Name must be between 6 and 10 characters");
+            toast.warning("Name must be between 6 and 10 characters");
         } else if (!validatePhoneNumber(phone)) {
-            toast.error("Phone Number must be a valid SG phone number");
+            toast.warning("Phone Number must be a valid SG phone number");
         } else if (!validateEmail(email)) {
-            toast.error("Invalid email address");
+            toast.warning("Invalid email address");
         } else {
             return true;
         }
