@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CREATE_EMPLOYEE, UPDATE_EMPLOYEE_BY_ID, GET_CAFES } from '../redux/types';
 import {  toast } from 'react-toastify';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const AddEmployee = ({ cafes }) => {
 
@@ -139,7 +141,7 @@ const AddEmployee = ({ cafes }) => {
                         </RadioGroup>
                     </FormControl>
                     <FormControl fullWidth margin="normal">
-                        <InputLabel>Assigned Café</InputLabel>
+                        <InputLabel>Assign Café</InputLabel>
                         <Select value={cafe} onChange={handleCafeChange}>
                             <MenuItem value="">None</MenuItem>
                             {cafeList?.map(cafe => (
@@ -148,8 +150,8 @@ const AddEmployee = ({ cafes }) => {
                         </Select>
                     </FormControl>
                     <Box sx={{ marginTop: '3rem', display: 'flex', justifyContent: 'flex-end', '& > :not(:first-of-type)': { ml: 1 } }}>
-                        <Button type="submit" variant="contained" color="primary">Save</Button>
-                        <Button type="button" variant="contained" color="warning" onClick={onCancel}>Cancel</Button>
+                        <Button type="submit" variant="contained" color="primary" endIcon={<SaveIcon />}>Save</Button>
+                        <Button type="button" variant="contained" color="warning" onClick={onCancel} endIcon={<CancelIcon />}>Cancel</Button>
                     </Box>
                     {/* <Button type="submit" variant="contained" color="primary" onClick={handleSave}>Save</Button>
                     <Button type="button" variant="contained" color="primary" onClick={handleSave}>Cancel</Button> */}

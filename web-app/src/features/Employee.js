@@ -9,6 +9,7 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 const Employee = () => {
@@ -24,6 +25,10 @@ const Employee = () => {
 
     const handleEdit = (data) => {
         navigate('/addemployee', { state: { employeeData: data } });
+    }
+
+    const handleBack = () => {
+        navigate(-1);
     }
 
     const handleDelete = (data) => {
@@ -59,7 +64,7 @@ const Employee = () => {
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: '2rem', mt: '2rem' }}>
-                <Typography variant="h4" sx={{ textAlign: 'center' }}>EMPLOYEE LIST</Typography>
+                <Typography variant="h4" sx={{ textAlign: 'center' }}>EMPLOYEE LIST: {state.cafeData.name}</Typography>
                 <Link to="/addemployee" className="link-tag" style={{ display: 'inline-block' }}>
                     <Button variant="contained" color="success" startIcon={<AddIcon />}>ADD EMPLOYEE</Button>
                 </Link>
@@ -68,6 +73,7 @@ const Employee = () => {
             <Box sx={{ mb: '2rem', mt: "2rem" }}>
                 <DataTable rowData={rows ? rows : []} columnDefs={columnDefs} />
             </Box>
+            <Button style={{ float: "right" }} onClick={handleBack} variant="contained" color="primary" startIcon={<ArrowBackIcon />}>BACK</Button>
         </Box>
     );
 }

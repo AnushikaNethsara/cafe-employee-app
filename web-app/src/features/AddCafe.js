@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { CREATE_CAFE, UPDATE_CAFE_BY_ID } from '../redux/types';
 import { Box, Button, FormControl, TextField, Typography, Grid } from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const AddCafe = () => {
     const dispatch = useDispatch();
@@ -105,10 +107,12 @@ const AddCafe = () => {
                             '& > :not(:first-of-type)': { ml: 1 },
                         }}
                     >
-                        <Button type="submit" variant="contained" color="primary">
+                        <Button type="submit" variant="contained" color="primary" startIcon={<SaveIcon />}>
                             Save
                         </Button>
-                        <Button type="button" variant="contained" color="warning" onClick={onCancel}>Cancel</Button>
+                        <Button type="button" variant="contained" color="warning" onClick={onCancel} endIcon={<CancelIcon />}>
+                            Cancel
+                        </Button>
                     </Box>
                 </form>
             </Box>
