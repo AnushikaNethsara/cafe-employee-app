@@ -26,7 +26,7 @@ function App() {
             <Route path="/addemployee/:id" element={<AddEmployee />} />
             <Route path="/addcafe" element={<AddCafe />} />
             <Route path="/addcafe/:id" element={<AddCafe />} />
-            <Route path="/" element={<Employee />} />
+            <Route path="/" element={<Cafe />} />
           </Routes>
         </Container>
       </Router>
