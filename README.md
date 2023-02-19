@@ -46,6 +46,9 @@ Method 2: RUN USING DOCKER
         3. After completing above run the following command in your terminal:
             docker run -it -p 3000:3000 cafe-employee-frontend:latest
 
+        4. After completing above open following URL in web browser
+            http://localhost:3000/
+
     Run Backend Application:
 
         1. Copy the .env file in zip file to server directory
